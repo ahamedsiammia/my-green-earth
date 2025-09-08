@@ -85,16 +85,16 @@ const defaultShowCard = (cards)=>{
     cards.forEach((card)=>{
         // console.log(card)
         const creatDiv = document.createElement('div')
-        creatDiv.innerHTML =`<div class="border border-gray-300   p-4 rounded-lg bg-white ">
-    <img class="w-[320.33px] h-[186.8px] rounded-xl text-[#1f2937] ml-2" src="${card.image}" alt="">
-    <h1 onclick ="loadPalantDetiles(${card.id})" class="font-bold ">${card.name} Tree</h1>
-    <p>${card.description}</p>
+        creatDiv.innerHTML =`<div class="border border-gray-300 h-[550px]   p-4 rounded-lg bg-white ">
+    <img class=" w-full h-[50%] rounded-xl text-[#1f2937] " src="${card.image}" alt="">
+    <h1 onclick="loadPalantDetiles(${card.id})" class="font-bold mt-2 ">${card.name}</h1>
+    <p class="mt-3">${card.description}</p>
     <div class="flex justify-between items-center">
         <button class="btn bg-[#DCFCE7] text-[#15803D] rounded-2xl mt-3">${card.category}</button>
     <p id="price" class="font-bold">৳${card.price}</p>
     </div>
-    <button class="btn w-full rounded-2xl bg-green-600 text-white mt-4">Add to Cart</button>
-</div>`
+    <button class="btn w-full rounded-2xl bg-green-600 text-white mt-8">Add to Cart</button>
+  </div>`
         cardContainer.appendChild(creatDiv)
     })
 }
