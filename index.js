@@ -3,6 +3,7 @@ const cardContainer = document.getElementById('card-container')
 const bookmarkContainer = document.getElementById('bookmark-container')
 const detilesContainer = document.getElementById('detiles-container')
 // const deleteBtn = document.getElementById('delete-btn')
+const totalBtn = document.getElementById('total-btn')
 
 let bookmarks = [];
 
@@ -20,12 +21,18 @@ const showCategory = (category) =>{
     category.forEach((cate) =>{
         // console.log(cate)
         const div = document.createElement('div')
-        div.innerHTML = `<div id="${cate.id}" onclick ="loadCard(${cate.id})" class=" btn mt-3 hover:bg-[#15803d] p-2 rounded-lg w-full ">${cate.category_name}</div>`
+        div.innerHTML = `<div id="category-btn-${cate.id}" onclick ="loadCard(${cate.id})" class=" btn mt-3 hover:bg-[#15803d] p-2 rounded-lg w-full category-tree ">${cate.category_name}</div>`
     categoryContainer.appendChild(div)
         
     })
 }
 //                                 end category
+
+//                                category btn remove active class
+const removeActive =()=>{
+    const categoryTree = document.querySelectorAll(".category-tree")
+    categoryTree.forEach((btn) => btn.classList.remove("active"));
+}
 
 
 //                                start  load card 
@@ -33,6 +40,10 @@ const loadCard = (carded)=>{
     fetch(`https://openapi.programming-hero.com/api/category/${carded}`)
     .then((res)=>res.json())
     .then((data) =>{
+        removeActive()
+        const categoryBtn = document.getElementById(`category-btn-${carded}`)
+        // console.log(categoryBtn)
+        categoryBtn.classList.add('active')
          showCard((data.plants))
         console.log(data)
         
@@ -93,12 +104,24 @@ const defaultShowCard = (cards)=>{
         <button class="btn bg-[#DCFCE7] text-[#15803D] rounded-2xl mt-3">${card.category}</button>
     <p id="price" class="font-bold">৳${card.price}</p>
     </div>
-    <button class="btn w-full rounded-2xl bg-green-600 text-white mt-8">Add to Cart</button>
+    <button onclick ="bookmarkCard(${card.price})" class="btn w-full rounded-2xl bg-green-600 text-white mt-8">Add to Cart</button>
   </div>`
         cardContainer.appendChild(creatDiv)
     })
 }
-//                                  clos default show card
+//                                  close default show card
+
+const bookmarkCard = (prices)=>{
+    let taka = 0;
+    // console.log(prices)
+    
+        const btnPrice = ()=>{
+            allPrice = taka + prices
+        return allPrice;
+        }
+        otalBtn = btnPrice;
+    
+}
 
 
  cardContainer.addEventListener('click',(e)=>{
@@ -169,10 +192,6 @@ const showPalantDetiles = (data) =>{
 }
 //                                                close modal
 
-// const deleteCard = (deleteCard)=>{
-//     console.log(deleteCard)
-// }
-// loadNewes({id:'main'})
 
 
 const showLoading = ()=>{
