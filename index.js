@@ -3,7 +3,7 @@ const cardContainer = document.getElementById('card-container')
 const bookmarkContainer = document.getElementById('bookmark-container')
 const detilesContainer = document.getElementById('detiles-container')
 // const deleteBtn = document.getElementById('delete-btn')
-const totalBtn = document.getElementById('total-btn')
+let  totalBtn = document.getElementById('total-btn')
 
 let bookmarks = [];
 
@@ -21,7 +21,7 @@ const showCategory = (category) =>{
     category.forEach((cate) =>{
         // console.log(cate)
         const div = document.createElement('div')
-        div.innerHTML = `<div id="category-btn-${cate.id}" onclick ="loadCard(${cate.id})" class=" btn mt-3 hover:bg-[#15803d] p-2 rounded-lg w-full category-tree ">${cate.category_name}</div>`
+        div.innerHTML = `<div id="category-btn-${cate.id}" onclick ="loadCard(${cate.id})" class=" md:text-left text-center mt-3 hover:bg-[#15803d] p-2  rounded-lg w-full category-tree ">${cate.category_name}</div>`
     categoryContainer.appendChild(div)
         
     })
@@ -59,7 +59,7 @@ const showCard = (cards)=>{
     cards.forEach((card) =>{
         // console.log(card)
         const creatDiv = document.createElement('div')
-        creatDiv.innerHTML =`<div class="border border-gray-300 h-[550px]   p-4 rounded-lg bg-white ">
+        creatDiv.innerHTML =`<div class=" shadow-md h-[550px] mt-2  p-4 rounded-lg bg-white ">
     <img class=" w-full h-[50%] rounded-xl text-[#1f2937] " src="${card.image}" alt="">
     <h1 onclick="loadPalantDetiles(${card.id})" class="font-bold mt-2 ">${card.name}</h1>
     <p class="mt-3">${card.description}</p>
@@ -96,7 +96,7 @@ const defaultShowCard = (cards)=>{
     cards.forEach((card)=>{
         // console.log(card)
         const creatDiv = document.createElement('div')
-        creatDiv.innerHTML =`<div class="border border-gray-300 h-[550px]   p-4 rounded-lg bg-white ">
+        creatDiv.innerHTML =`<div class=" shadow-md h-[550px] mt-2  p-4 rounded-lg bg-white ">
     <img class=" w-full h-[50%] rounded-xl text-[#1f2937] " src="${card.image}" alt="">
     <h1 onclick="loadPalantDetiles(${card.id})" class="font-bold mt-2 ">${card.name}</h1>
     <p class="mt-3">${card.description}</p>
@@ -116,18 +116,19 @@ const bookmarkCard = (prices)=>{
     // console.log(prices)
     
         const btnPrice = ()=>{
-            allPrice = taka + prices
+            allPrice = totalBtn + prices
         return allPrice;
-        }
-        otalBtn = btnPrice;
-    
+        }   
+    btnPrice()
 }
-
+bookmarkCard()
 
  cardContainer.addEventListener('click',(e)=>{
     // console.log(e.target.innerText)
     if(e.target.innerText === 'Add to Cart'){
         addCard(e)
+        const treeName = e.target.parentNode.querySelector('h1').innerText
+        alert( `${treeName} has been added to cart`)
     }
  })
 
@@ -135,11 +136,11 @@ const addCard = (e) =>{
     console.log(e.target.parentNode)
 
     const title = (e.target.parentNode.children[3].innerText)
-    // const Id =e.target.parentNode.parentNode.parentNode
-    // console.log(Id)
+    const tree = (e.target.parentNode.children[1].innerText)
+    // console.log(name)
         bookmarks.push({
-            title:title
-            
+            title:title,
+            tree:tree
         })
         showAddCard(bookmarks)
 }
@@ -147,13 +148,16 @@ const addCard = (e) =>{
 const showAddCard = (bookmarks) =>{
     bookmarkContainer.innerHTML = '';
     bookmarks.forEach((addcard) =>{
+         
         bookmarkContainer.innerHTML +=`
         <div class=" my-2 p-1 bg-[#F0FDF4] rounded-lg ">
         <h >${addcard.title}</h> <br>
         <button onclick="deleteBtn()" class="btn rounded-xl bg-[#F0FDF4] hover:bg-[#15803d] mt-5">Delete</button>
         </div>
         `
+       
     })
+    
 
 }
 
@@ -200,8 +204,6 @@ const showLoading = ()=>{
     `
 }
 
-
-// loadCard(1)
 
 loadCategory()
 defaultLoadCard()
