@@ -176,10 +176,11 @@ const showPalantDetiles = (data) => {
     <div>
     <h1 class ="font-bold">${data.name}</h1>
     <img class =" w-full h-[300px]  rounded-xl text-[#1f2937]  mt-2 " src="${data.image}"/>
-    <h1 class ="font-bold mt-2">৳${data.price}</h1>
-    <p>${data.description}</p>
+    <h1 class ="font-bold mt-2">   Price : <span class="font-bold text-2xl">৳</span> ${data.price}</h1>
+    <p> <span class="font-bold ">description :</span> ${data.description}</p>
     </div>
     `;
+
   document.getElementById("plant_modal").showModal();
 };
 //                                                close modal
