@@ -2,8 +2,8 @@ const categoryContainer = document.getElementById("category-container");
 const cardContainer = document.getElementById("card-container");
 const bookmarkContainer = document.getElementById("bookmark-container");
 const detilesContainer = document.getElementById("detiles-container");
-// const deleteBtn = document.getElementById('delete-btn')
-let totalBtn = document.getElementById("total-btn");
+const totalBtn = document.getElementById("total-btn");
+
 
 let bookmarks = [];
 
@@ -19,9 +19,8 @@ const loadCategory = (id) => {
 
 const showCategory = (category) => {
   category.forEach((cate) => {
-    // console.log(cate)
     const div = document.createElement("div");
-    div.innerHTML = `<div id="category-btn-${cate.id}" onclick ="loadCard(${cate.id})" class=" md:text-left text-center mt-3 hover:bg-[#15803d] p-2  rounded-lg w-full category-tree ">${cate.category_name}</div>`;
+    div.innerHTML = `<div id="category-btn-${cate.id}" onclick ="loadCard(${cate.id})" class=" md:text-left text-center mt-3 hover:bg-[#15803d] hover:text-white p-2  rounded-lg w-full category-tree ">${cate.category_name}</div>`;
     categoryContainer.appendChild(div);
   });
 };
@@ -40,20 +39,16 @@ const loadCard = (carded) => {
     .then((data) => {
       removeActive();
       const categoryBtn = document.getElementById(`category-btn-${carded}`);
-      // console.log(categoryBtn)
       categoryBtn.classList.add("active");
       showCard(data.plants);
-      console.log(data);
     });
 
   showLoading();
 };
 
 const showCard = (cards) => {
-  // console.log(cards)
   cardContainer.innerHTML = "";
   cards.forEach((card) => {
-    // console.log(card)
     const creatDiv = document.createElement("div");
     creatDiv.innerHTML = `<div class=" shadow-md h-[550px] mt-2  p-4 rounded-lg bg-white ">
     <img class=" w-full h-[50%] rounded-xl text-[#1f2937] " src="${card.image}" alt="">
@@ -76,15 +71,12 @@ const defaultLoadCard = () => {
     .then((res) => res.json())
     .then((data) => {
       defaultShowCard(data.plants);
-      console.log(data);
     });
 };
 
 const defaultShowCard = (cards) => {
-  // console.log(cards[2])
   cardContainer.innerHTML = "";
   cards.forEach((card) => {
-    // console.log(card)
     const creatDiv = document.createElement("div");
     creatDiv.innerHTML = `<div class=" shadow-md h-[550px] mt-2  p-4 rounded-lg bg-white ">
     <img class=" w-full h-[50%] rounded-xl text-[#1f2937] " src="${card.image}" alt="">
@@ -101,20 +93,9 @@ const defaultShowCard = (cards) => {
 };
 //                                  close default show card
 
-const bookmarkCard = (prices) => {
-  let taka = 0;
-  // console.log(prices)
 
-  const btnPrice = () => {
-    allPrice = totalBtn + prices;
-    return allPrice;
-  };
-  btnPrice();
-};
-bookmarkCard();
 
 cardContainer.addEventListener("click", (e) => {
-  // console.log(e.target.innerText)
   if (e.target.classList.contains("addToCartBtn")) {
     addCard(e);
     const treeName = e.target.parentNode.querySelector("h1").innerText;
@@ -124,8 +105,6 @@ cardContainer.addEventListener("click", (e) => {
 
 const addCard = (e) => {
   console.log(e.target.parentNode);
-
-  //   const title = e.target.parentNode.children[3].querySelector("button").innerText;
   const title = e.target.parentNode.querySelector("h1").innerText;
   const price = parseInt(
     e.target.parentNode.children[3].querySelector("p").querySelector("span").innerText
@@ -139,27 +118,40 @@ const addCard = (e) => {
   });
   showAddCard(bookmarks);
 };
-let money = 0;
+
+//                                        total price
 const showAddCard = (bookmarks) => {
   bookmarkContainer.innerHTML = "";
-  bookmarks.forEach((bookmark) => {
-    total = money + bookmark.price;
+
+  let total = 0;
+
+  bookmarks.forEach((bookmark, index) => {
+    let bookmarkPrice = parseInt(bookmark.price);
+    total += bookmarkPrice;
+
     bookmarkContainer.innerHTML += `
-        <div class=" my-2 p-1 bg-[#F0FDF4] rounded-lg ">
-        <div class="flex justify-between px-2"><h1 >${bookmark.title}</h1> <h1>${bookmark.price}</h1></div> <br>
-        <button onclick="deleteBtn()" class="btn rounded-xl bg-[#F0FDF4] hover:bg-[#15803d] mt-5">Delete</button>
-        </div>
-        `;
+      <div class="my-2 p-1 bg-[#F0FDF4] rounded-lg">
+        <div class="flex justify-between px-2">
+          <h1>${bookmark.title}</h1> 
+          <h1>${bookmark.price}</h1>
+        </div> <br>
+        <button onclick="deleteBtn(${index})" 
+                class="btn rounded-xl bg-[#F0FDF4] hover:bg-[#15803d] mt-5">
+          Delete
+        </button>
+      </div>
+    `;
   });
+
+  totalBtn.innerText = total;
 };
 
-const deleteBtn = (id) => {
-  fetch(`https://openapi.programming-hero.com/api/plants/`)
-    .then((res) => res.json())
-    .then((data) => {
-      console.log(data.plants);
-    });
+//                                        Delete a bookmark
+const deleteBtn = (index) => {
+  bookmarks.splice(index, 1);
+  showAddCard(bookmarks); 
 };
+
 
 //                            start   modal
 
